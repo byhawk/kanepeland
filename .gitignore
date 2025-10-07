@@ -1,0 +1,60 @@
+# Evantis Home - Git Ignore
+
+# Sensitive Configuration Files
+includes/config.php
+.env
+
+# User Uploads
+uploads/*
+!uploads/.htaccess
+
+# Logs
+logs/*
+!logs/.htaccess
+*.log
+
+# Scraper Data
+scraper-data/*
+!scraper-data/.gitkeep
+
+# Database Dumps
+*.sql.gz
+database/backup-*.sql
+
+# IDE and Editor Files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+.DS_Store
+Thumbs.db
+
+# Temporary Files
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+
+# Composer
+/vendor/
+composer.lock
+
+# Node modules (if using npm)
+node_modules/
+package-lock.json
+
+# Windows
+desktop.ini
+
+# Mac
+.AppleDouble
+.LSOverride
+
+# Cache
+cache/*
+!cache/.htaccess
+
+# Session Files
+sessions/*
+!sessions/.htaccess
