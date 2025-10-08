@@ -50,22 +50,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['json_file'])) {
 
                         // Find or create category
                         $category_id = null;
-                        if (isset($product['category'])) {
-                            $category_slug = createSlug($product['category']);
-                            $stmt = $db->prepare("SELECT id FROM categories WHERE slug = :slug");
-                            $stmt->execute(['slug' => $category_slug]);
-                            $category = $stmt->fetch();
+                        if (isset($product['category']) && !empty($product['category'])) {
+                            // Extract last category from breadcrumb (e.g., "Ana Sayfa > Oturma > Koltuk" -> "Koltuk")
+                            $category_name = $product['category'];
+                            if (strpos($category_name, ' > ') !== false) {
+                                $parts = explode(' > ', $category_name);
+                                $category_name = trim(end($parts)); // Get last part (most specific)
+                            }
 
-                            if (!$category) {
-                                // Create new category
-                                $stmt = $db->prepare("INSERT INTO categories (name, slug) VALUES (:name, :slug)");
-                                $stmt->execute([
-                                    'name' => $product['category'],
-                                    'slug' => $category_slug
-                                ]);
-                                $category_id = $db->lastInsertId();
-                            } else {
-                                $category_id = $category['id'];
+                            // Skip generic categories
+                            $skip_categories = ['ana sayfa', 'anasayfa', 'home', 'ürünler', 'products'];
+                            if (in_array(strtolower($category_name), $skip_categories)) {
+                                $category_name = null;
+                            }
+
+                            if ($category_name) {
+                                $category_slug = createSlug($category_name);
+                                $stmt = $db->prepare("SELECT id FROM categories WHERE slug = :slug");
+                                $stmt->execute(['slug' => $category_slug]);
+                                $category = $stmt->fetch();
+
+                                if (!$category) {
+                                    // Create new category
+                                    $stmt = $db->prepare("INSERT INTO categories (name, slug, status) VALUES (:name, :slug, 1)");
+                                    $stmt->execute([
+                                        'name' => $category_name,
+                                        'slug' => $category_slug
+                                    ]);
+                                    $category_id = $db->lastInsertId();
+                                } else {
+                                    $category_id = $category['id'];
+                                }
                             }
                         }
 
