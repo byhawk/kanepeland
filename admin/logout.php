@@ -1,6 +1,6 @@
 <?php
 // Evantis Home - Admin Logout
-session_start();
+require_once '../includes/config.php';
 
 // Destroy all session data
 $_SESSION = array();

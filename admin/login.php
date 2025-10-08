@@ -1,6 +1,5 @@
 <?php
 // Admin Login Page
-session_start();
 
 // Zaten giriş yapmışsa dashboard'a yönlendir
 if (isset($_SESSION['admin_logged_in']) && $_SESSION['admin_logged_in'] === true) {
