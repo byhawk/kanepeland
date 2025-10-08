@@ -3,7 +3,7 @@
 
 // Zaten giriş yapmışsa dashboard'a yönlendir
 if (isset($_SESSION['admin_logged_in']) && $_SESSION['admin_logged_in'] === true) {
-    header('Location: index.php');
+    header('Location: dashboard.php');
     exit();
 }
 
@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt = $db->prepare("UPDATE admin_users SET last_login = NOW() WHERE id = :id");
             $stmt->execute(['id' => $user['id']]);
 
-            header('Location: index.php');
+            header('Location: dashboard.php');
             exit();
         } else {
             $error = 'Kullanıcı adı veya şifre hatalı!';

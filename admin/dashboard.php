@@ -19,7 +19,7 @@ $total_categories = $stmt->fetchColumn();
 $recent_products = $db->query("SELECT * FROM products ORDER BY created_at DESC LIMIT 5")->fetchAll();
 
 // Get import logs
-$import_logs = $db->query("SELECT * FROM import_logs ORDER BY created_at DESC LIMIT 5")->fetchAll();
+$import_logs = $db->query("SELECT * FROM import_logs ORDER BY import_date DESC LIMIT 5")->fetchAll();
 ?>
 <!DOCTYPE html>
 <html lang="tr">
@@ -246,10 +246,10 @@ $import_logs = $db->query("SELECT * FROM import_logs ORDER BY created_at DESC LI
                                     <div class="list-group-item px-0">
                                         <div class="d-flex justify-content-between align-items-start">
                                             <div>
-                                                <p class="mb-1"><strong><?php echo $log['products_imported']; ?></strong> ürün import edildi</p>
+                                                <p class="mb-1"><strong><?php echo $log['imported_products']; ?></strong> ürün import edildi</p>
                                                 <small class="text-muted">
                                                     <i class="far fa-clock me-1"></i>
-                                                    <?php echo date('d.m.Y H:i', strtotime($log['created_at'])); ?>
+                                                    <?php echo date('d.m.Y H:i', strtotime($log['import_date'])); ?>
                                                 </small>
                                             </div>
                                             <?php if ($log['status'] === 'success'): ?>
