@@ -146,6 +146,13 @@ function sanitize($input) {
 }
 
 /**
+ * Clean input (alias for sanitize)
+ */
+function clean($input) {
+    return sanitize($input);
+}
+
+/**
  * Check if user is admin
  */
 function isAdmin() {

@@ -1,6 +1,7 @@
 <?php
 // Admin - JSON Import Page
 require_once '../includes/config.php';
+require_once '../includes/functions.php';
 
 if (!isset($_SESSION['admin_logged_in'])) {
     header('Location: login.php');
@@ -232,15 +233,63 @@ $recent_imports = $db->query("
     <title>JSON Import - Admin Panel</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="../assets/css/admin.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+
+    <style>
+        .admin-sidebar {
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+        }
+        .admin-sidebar .nav-link {
+            color: rgba(255, 255, 255, 0.8);
+            padding: 12px 20px;
+            transition: all 0.3s;
+        }
+        .admin-sidebar .nav-link:hover, .admin-sidebar .nav-link.active {
+            color: #fff;
+            background: rgba(255, 255, 255, 0.1);
+            border-left: 4px solid var(--hover-gold);
+        }
+    </style>
 </head>
 <body>
-    <?php include 'includes/sidebar.php'; ?>
 
-    <div class="main-content">
-        <?php include 'includes/topbar.php'; ?>
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar -->
+        <div class="col-md-3 col-lg-2 px-0 admin-sidebar">
+            <div class="p-3 text-white">
+                <h4 class="mb-4"><i class="fas fa-user-shield me-2"></i> Admin Panel</h4>
+                <p class="mb-0 small">Hoş geldiniz, <?php echo htmlspecialchars($_SESSION['admin_username']); ?></p>
+            </div>
+            <nav class="nav flex-column">
+                <a class="nav-link" href="dashboard.php">
+                    <i class="fas fa-tachometer-alt me-2"></i> Dashboard
+                </a>
+                <a class="nav-link" href="products.php">
+                    <i class="fas fa-box me-2"></i> Ürünler
+                </a>
+                <a class="nav-link" href="categories.php">
+                    <i class="fas fa-folder me-2"></i> Kategoriler
+                </a>
+                <a class="nav-link active" href="import-json.php">
+                    <i class="fas fa-file-import me-2"></i> JSON İmport
+                </a>
+                <a class="nav-link" href="settings.php">
+                    <i class="fas fa-cog me-2"></i> Ayarlar
+                </a>
+                <hr style="border-color: rgba(255, 255, 255, 0.2);">
+                <a class="nav-link" href="../index.php" target="_blank">
+                    <i class="fas fa-external-link-alt me-2"></i> Siteyi Görüntüle
+                </a>
+                <a class="nav-link" href="logout.php">
+                    <i class="fas fa-sign-out-alt me-2"></i> Çıkış Yap
+                </a>
+            </nav>
+        </div>
 
-        <div class="content-wrapper">
+        <!-- Main Content -->
+        <div class="col-md-9 col-lg-10 px-4 py-3">
             <div class="container-fluid">
                 <div class="row mb-4">
                     <div class="col">
@@ -381,7 +430,8 @@ $recent_imports = $db->query("
             </div>
         </div>
     </div>
+</div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
